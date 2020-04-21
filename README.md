@@ -9,6 +9,7 @@
 `$ react-native link web3-react-native`
 
 ## Usage
+
 ```javascript
 import Web3 from 'web3-react-native';
 
