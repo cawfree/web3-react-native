@@ -33,7 +33,7 @@ For usage details, please see the [**documentation**](./docs).
 
 ## 🌠 Donations
 
-If you want to help with the maintenance this project,  please consider making a donation of [**ETH**](https://ethereum.org/) to the following address:
+If you want to help keep this project alive,  please consider making a donation of [**ETH**](https://ethereum.org/) to the following address:
 
 <p align="center">
   <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
