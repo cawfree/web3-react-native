@@ -50,7 +50,8 @@ export const Wallet = Object.freeze({
     sanitizePassword(p),
   )
     .then(
-      ({ ...wallet }) => Object.freeze({
+      wallet => Object.freeze({
+        ...wallet,
         sendFunds: (url, toAddress, amount, units) => Web3
           .sendFunds(
             wallet,

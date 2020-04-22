@@ -2,6 +2,7 @@
   - [1. Loading a Wallet](#loading-a-wallet)
   - [2. Using a Wallet](#using-a-wallet)
     - [2.1 sendFunds](#sending-funds)
+    - [2.2 `...extras`](#wallet-extras)
 
 ## <a name="loading-a-wallet"></a>1. Loading a Wallet
 
@@ -58,7 +59,7 @@ For demonstration, the `Wallet` object can be interacted with as follows:
 
 In the following sections, we outline the usage of all properties of the `Wallet` object.
 
-### <a name="sending-funds"></a>2.1 sendFunds
+### <a name="sending-funds"></a>2.1 `sendFunds`
 
 `sendFunds` is a high-level function which can be used to easily send funds to another address on the ethereum network.
 
@@ -116,3 +117,10 @@ The units of the amount to send to the `toAddress`. This can be one of the follo
 | `"finney"`    | 1e15 wei      | 1,000,000,000,000,000         |
 | `"ether"`     | 1e18 wei      | 1,000,000,000,000,000,000     |
 
+### <a name="wallet-extras"></a>2.2 `{ ...extras }`
+
+In addition to functionality, a `Wallet` also defines useful properties.
+
+**`address:String`**
+
+The address of the `Wallet`.
