@@ -68,15 +68,13 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   @ReactMethod
   public final void loadWallet(final ReadableMap pKeystore, final String pPassword, final Promise pPromise) {
     try {
-      debug("got to this bit");
-      final String id = this.addWallet(pKeystore, pPassword);
-      debug("got id "+id);
-      
-      // TODO: How to delegate? Is this really a wallet?
-      // TODO: Note, you can also use a file or _create_ a new Wallet.
-      pPromise.resolve(
-        Arguments.createMap()
-      );
+      // XXX: Attempt to create the Wallet.
+      final String       addr = this.addWallet(pKeystore, pPassword);
+      final WritableMap args = Arguments.createMap();
+      // XXX: Propagate useful properties back to the caller.
+      args.putString("address", addr);
+      // XXX: Return the allocated wallet instance to the caller.
+      pPromise.resolve(args);
     }
     catch (final Exception pException) {
       pPromise.reject(pException);
@@ -94,22 +92,26 @@ public final class Web3Module extends ReactContextBaseJavaModule {
 
   /** Adds a Wallet to the in-memory map. */
   private final String addWallet(final ReadableMap pKeystore, final String pPassword) throws IOException, CipherException {
-    final String uuid = UUID.randomUUID().toString();
-    final File   f    = File.createTempFile(uuid, "json", this.getReactApplicationContext().getCacheDir());
+    final File f = File.createTempFile(
+      UUID.randomUUID().toString(),
+      "json",
+      this.getReactApplicationContext().getCacheDir()
+    );
+    // XXX:  Write the supplied data to a temporary file.
+    // TODO: Use loadJsonCredentials.
+    this.writeFile(f, new JSONObject(pKeystore.toHashMap()).toString());
 
-    final HashMap<String, Object> data = pKeystore.toHashMap();
-    final JSONObject j = new JSONObject(data);
-    debug("writing "+j.toString());
-    // TODO: Delete the temporary file once we're done with it.
-    this.writeFile(f, j.toString());
-
-    // TODO: I would like to use loadJsonCredentials here, but it doesn't appear to be available in the latest version of web3-core.
-    final Credentials creds = WalletUtils.loadCredentials(pPassword, f.getAbsolutePath());
-
-    // Here we track the wallet for future reference.
-    this.getWallets().put(uuid, creds);
-
-    return uuid;
+    // Load the Credentials.
+    final Credentials c = WalletUtils.loadCredentials(pPassword, f.getAbsolutePath());
+    // Delete the allocated file; it serves no purpose now.
+    f.delete();
+    // Fetch the Address of the Wallet.
+    final String addr = c.getAddress();
+    // Here we track the wallet for future reference. Any attempts to
+    // re-create the same wallet will resolve to the same place in memory.
+    this.getWallets().put(addr, c);
+    // Return the Wallet's address.
+    return addr;
   }
 
   private final Map<String, Credentials> getWallets() {
