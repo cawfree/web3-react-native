@@ -1,12 +1,9 @@
-# Wallet
-A wallet represents your transaction address.
-
 ## Table of Contents
   - [1. Loading a Wallet](#loading-a-wallet)
   - [2. Using a Wallet](#using-a-wallet)
     - [2.1 sendFunds](#sending-funds)
 
-## [1. Loading a Wallet](#loading-a-wallet)
+## <a name="loading-a-wallet"></a>1. Loading a Wallet
 
 A wallet is a public address which can be used to participate in ethereum transactions. You can use a wallet to both send and receive funds. Under the hood, a wallet represents your unique address on the ethereum network and the digital fingerprint which guarantees its authenticity.
 
@@ -46,7 +43,7 @@ export default () => {
 };
 ```
 
-## [2. Using a Wallet](#using-a-wallet)
+## <a name="using-a-wallet"></a>2. Using a Wallet
 
 The`Wallet` object returned from the call to [`Wallet.load()`](#loading-a-wallet) exposes all of the functionality to interact with the ethereum network.
 
@@ -59,4 +56,4 @@ For demonstration, the `Wallet` object can be interacted with as follows:
 })();
 ```
 
-### [2.1 sendFunds](#sending-funds)
+### <a name="sending-funds"></a>2.1 sendFunds
