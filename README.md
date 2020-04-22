@@ -42,4 +42,4 @@ If you want to give thanks for this project, please consider making a donation o
 </p>
 
 ## ✌️ License
-[MIT](./LICENSE)
+[**MIT**](./LICENSE)
