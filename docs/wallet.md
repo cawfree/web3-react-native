@@ -2,7 +2,7 @@
   - [1. Loading a Wallet](#loading-a-wallet)
   - [2. Using a Wallet](#using-a-wallet)
     - [2.1 `sendFunds`](#sending-funds)
-    - [2.2 Wallet `{ ...extras }`](#wallet-extras)
+    - [2.2 `{ ...extras }`](#wallet-extras)
 
 ## <a name="loading-a-wallet"></a>1. Loading a Wallet
 
@@ -117,7 +117,7 @@ The units of the amount to send to the `toAddress`. This can be one of the follo
 | `"finney"`    | 1e15 wei      | 1,000,000,000,000,000         |
 | `"ether"`     | 1e18 wei      | 1,000,000,000,000,000,000     |
 
-### <a name="wallet-extras"></a>2.2 Wallet `{ ...extras }`
+### <a name="wallet-extras"></a>2.2 `{ ...extras }`
 
 In addition to functionality, a `Wallet` also defines useful properties.
 
