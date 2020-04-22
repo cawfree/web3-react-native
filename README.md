@@ -34,3 +34,6 @@ For usage details, please see the [**documentation**](./docs).
 ## 🌠 Donations
 
 If you want to give thanks for this project, please consider making a donation of [ETH](https://ethereum.org/).
+
+## ✌️ License
+[MIT](./LICENSE)
