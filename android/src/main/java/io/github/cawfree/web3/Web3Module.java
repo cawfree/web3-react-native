@@ -8,9 +8,8 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 
-import java.math.BigDecimal;
-
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.CipherException;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
@@ -20,6 +19,14 @@ import org.web3j.tx.gas.ContractGasProvider;
 import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
+import java.math.BigDecimal;
 
 // TODO: Remove this!
 import android.util.Log;
@@ -38,7 +45,8 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   }
 
   /* Member Variables. */
-  private final ReactApplicationContext mReactApplicationContext;
+  //private final ReactApplicationContext  mReactApplicationContext;
+  private final Map<String, Credentials> mWallets;
   //private       Web3j                   mWeb3j;
   //private       Credentials             mCredentials;
 
@@ -46,7 +54,8 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   public Web3Module(final ReactApplicationContext pReactApplicationContext) {
     super(pReactApplicationContext);
     // Initialize Member Variables.
-    this.mReactApplicationContext = pReactApplicationContext;
+    //this.mReactApplicationContext = pReactApplicationContext;
+    this.mWallets                 = new HashMap();
     //this.mWeb3j                   = null;
     //this.mCredentials             = null;
   }
@@ -55,11 +64,51 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   @Override public String getName() { return "Web3"; }
 
   @ReactMethod
-  public final void init(final ReadableMap pKeystore, final String pPassword, final Promise pPromise) {
-    debug("got to this bit");
-    debug(pKeystore.toString());
-    debug(pPassword);
-    pPromise.resolve(Arguments.createMap());
+  public final void loadWallet(final ReadableMap pKeystore, final String pPassword, final Promise pPromise) {
+    try {
+      debug("got to this bit");
+      final String id = this.addWallet(pKeystore, pPassword);
+      debug("got id "+id);
+      
+      // TODO: How to delegate? Is this really a wallet?
+      // TODO: Note, you can also use a file or _create_ a new Wallet.
+      pPromise.resolve(
+        Arguments.createMap()
+      );
+    }
+    catch (final Exception pException) {
+      pPromise.reject(pException);
+    }
+    return;
+  }
+
+  /** Writes string contents to a designated File. **/
+  private void writeFile(final File pFile, final String pContent) throws IOException {
+    final FileWriter fw = new FileWriter(pFile, true);
+    fw.write(pContent);
+    fw.flush();
+    fw.close();
+  }
+
+  /** Adds a Wallet to the in-memory map. */
+  private final String addWallet(final ReadableMap pKeystore, final String pPassword) throws IOException, CipherException {
+    final String uuid = UUID.randomUUID().toString();
+    final File   f    = File.createTempFile(uuid, "json", this.getReactApplicationContext().getCacheDir());
+
+    // TODO: Delete the temporary file once we're done with it.
+    this.writeFile(f, pKeystore.toString());
+
+    // TODO: I would like to use loadJsonCredentials here, but it doesn't appear to be available in the latest version of web3-core.
+    final Credentials creds = WalletUtils.loadCredentials(pPassword, f.getAbsolutePath());
+
+    // Here we track the wallet for future reference.
+    this.getWallets().put(uuid, creds);
+
+    return uuid;
+  }
+
+  private final Map<String, Credentials> getWallets() {
+    return this.mWallets;
   }
 
   //// XXX: Where to get wallet? Where to get password?
@@ -111,7 +160,10 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   //  }
   //}
 
-  ///* Getters and Setters */
+  /* Getters and Setters */
+  //private final ReactApplicationContext getReactApplicationContext() {
+  //  return this.mReactApplicationContext;
+  //}
   //private final void setWeb3j(final Web3j pWeb3j) {
   //  this.mWeb3j = pWeb3j;
   //}
