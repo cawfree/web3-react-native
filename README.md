@@ -5,7 +5,7 @@
 </p>
 
 # web3-react-native
-[Web3](https://web3js.readthedocs.io/en/v1.2.6/) Native Modules for [React Native](https://reactnative.dev/).
+[**Web3**](https://web3js.readthedocs.io/en/v1.2.6/) Native Modules for [**React Native**](https://reactnative.dev/).
 
 ## 🚀 Getting Started
 
@@ -21,7 +21,7 @@ Using [`yarn`]():
 yarn add web3-react-native
 ```
 
-For versions less than [React Native 0.60](https://reactnative.dev/blog/2019/07/03/version-60), be sure to execute `react-native link` to make the native library dependencies visible to your compiled application.
+For versions less than [**React Native 0.60**](https://reactnative.dev/blog/2019/07/03/version-60), be sure to execute `react-native link` to make the native library dependencies visible to your compiled application.
 
 ### iOS
 Remember to execute `pod install` within your iOS directory to synchronize the `Podfile`. Finally, make a new build of your app via `react-native run-ios`.
@@ -33,7 +33,7 @@ For usage details, please see the [**documentation**](./docs).
 
 ## 🌠 Donations
 
-If you want to give thanks for this project, please consider making a donation of [ETH](https://ethereum.org/).
+If you want to give thanks for this project, please consider making a donation of [**ETH**](https://ethereum.org/).
 
 <p align="center">
   <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
