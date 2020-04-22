@@ -23,9 +23,9 @@ Remember to execute `pod install` within your iOS directory to synchronize the `
 ### Android
 Perform a rebuild of your compiled application by calling `react-native run-android`.
 
-For usage details, please see the [documentation](./docs).
+For usage details, please see the [**documentation**](./docs).
 
-## Donations
+## 🌠 Donations
 
 If this repository has helped you out, please consider making a donation of [ETH](https://ethereum.org/).
 
