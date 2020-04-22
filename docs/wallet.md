@@ -51,9 +51,64 @@ For demonstration, the `Wallet` object can be interacted with as follows:
 
 ```javascript
 (async () => {
-  // XXX: Functions can be accessed like this.
-  const { sendFunds, ...extras } = await loadWallet(keystore, password);
+  // XXX: Wallet operations can be accessed like this:
+  const { sendFunds, ...extras } = await Wallet.load(keystore, password);
 })();
 ```
 
+In the following sections, we outline the usage of all properties of the `Wallet` object.
+
 ### <a name="sending-funds"></a>2.1 sendFunds
+
+`sendFunds` is a high-level function which can be used to easily send funds to another address on the ethereum network.
+
+In the following example, we show how to send funds from the wallet to another address on the [`ropsten`](https://ropsten.etherscan.io/) public test network, or "testnet".
+
+Your wallet will first need some ethereum to be able to make a transaction. You can have test ether sent to your wallet via the [Ropsten Faucet](https://faucet.ropsten.be/). Just specify your wallet's address (don't forget the `0x` hexadecimal prefix) to receive `1 ETH`.
+
+Creating a transaction takes the following form:
+
+```javascript
+import { Wallet } from "web3-react-native";
+import { Linking } from "react-native";
+
+(async () => {
+  const { sendFunds } = await Wallet.load(keystore, password);
+  // XXX: You can view your transaction by navigating to: https://ropsten.etherscan.io/tx/<your-transaction-hash>
+  const { transactionHash } = await sendFunds(
+    'https://ropsten.infura.io/v3/<your-token>', // network url
+    '0x19e03255f667bdfd50a32722df860b1eeaf4d635', // address of wallet you'd like to send to
+    '1', // amount
+    'wei', // 1 wei = 10^-18 Ether
+  );
+  // Finally, view your transaction!
+  const url = `https://ropsten.etherscan.io/tx/${transactionHash}`;
+  await Linking.canOpenURL(url)
+    .then(canOpen => (!!canOpen) && Linking.openURL(url));
+})();
+```
+
+#### `sendFunds(url:String, toAddress:String, amount:String, units:String)`
+
+**`url:String`**
+The address of the ethereum network you'd like to make the transaction. In the previous example, we use the Ropsten test network. The structure of this call allows the same `Wallet` instance to be reused across different ethereum networks.
+
+**`toAddress:String`**
+The wallet address where to send funds to. Previously, we used this [example address](https://github.com/web3j/sample-project-gradle/blob/5b935d42b0f52d97b72029881990aa60cd38a312/src/main/java/org/web3j/sample/Application.java#L76),
+
+**`amount:String`**
+The amount to send to the address. Although we're representing a numeric quantity, we use a `String` to avoid rounding errors which occur due to limits [floating point precision](https://docs.python.org/3/tutorial/floatingpoint.html). This way, you can be _exact_ about the amounts involved.
+
+**`units:String`**
+The units of the amount to send to the `toAddress`. This can be one of the following units:
+
+| Unit      | Wei Value     | Wei                           |
+|---------- |-----------    |---------------------------    |
+| `"wei" `      | 1 wei         | 1                             |
+| `"kwei" `     | 1e3 wei       | 1,000                         |
+| `"mwei"`      | 1e6 wei       | 1,000,000                     |
+| `"gwei" `     | 1e9 wei       | 1,000,000,000                 |
+| `"szabo" `    | 1e12 wei      | 1,000,000,000,000             |
+| `"finney"`    | 1e15 wei      | 1,000,000,000,000,000         |
+| `"ether"`     | 1e18 wei      | 1,000,000,000,000,000,000     |
+
