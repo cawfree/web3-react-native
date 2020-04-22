@@ -33,12 +33,14 @@ For usage details, please see the [**documentation**](./docs).
 
 ## 🌠 Donations
 
-If you want to give thanks for this project, please consider making a donation of [**ETH**](https://ethereum.org/) to [`0x4b567985E550f004D3255C54083D90206BD14672`](ethereum:0x4b567985E550f004D3255C54083D90206BD14672).
+If you want to give thanks for this project, please consider making a donation of [**ETH**](https://ethereum.org/):
 
 <p align="center">
   <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
     <img src="./public/qr.png" width="128" height="128" />
   </a>
+  <br />
+  0x4b567985E550f004D3255C54083D90206BD14672
 </p>
 
 ## ✌️ License
