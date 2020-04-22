@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="./public/logo.png" width="320" height="226" />
+  <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
+    <img src="./public/logo.png" width="640" height="452" />
+  </a>
 </p>
 
 # web3-react-native
