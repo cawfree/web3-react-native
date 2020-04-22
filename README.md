@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./public/logo.png" width="320" height="226" />
+</p>
+
 # web3-react-native
 [Web3](https://web3js.readthedocs.io/en/v1.2.6/) Native Modules for [React Native](https://reactnative.dev/).
 
@@ -27,6 +31,4 @@ For usage details, please see the [**documentation**](./docs).
 
 ## 🌠 Donations
 
-If this repository has helped you out, please consider making a donation of [ETH](https://ethereum.org/).
-
-
+If you want to give thanks for this project, please consider making a donation of [ETH](https://ethereum.org/).
