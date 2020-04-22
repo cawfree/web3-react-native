@@ -35,5 +35,11 @@ For usage details, please see the [**documentation**](./docs).
 
 If you want to give thanks for this project, please consider making a donation of [ETH](https://ethereum.org/).
 
+<p align="center">
+  <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
+    <img src="./public/qr.png" width="128" height="128" />
+  </a>
+</p>
+
 ## ✌️ License
 [MIT](./LICENSE)
