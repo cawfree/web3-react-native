@@ -1,19 +1,23 @@
 {
   "name": "web3-react-native",
-  "title": "Web3 React Native",
-  "version": "1.0.0",
-  "description": "TODO",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "⚛️ Web3 Native Modules for React Native.",
+  "main": "dist",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src --out-dir dist",
+    "prettify": "yarn prettier --write \"**/*.js\"",
+    "test": "jest"
   },
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cawfree/web3-react-native.git",
     "baseUrl": "https://github.com/cawfree/web3-react-native"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "ethereum",
+    "web3"
   ],
   "author": {
     "name": "Alex Thomas (@cawfree) <hello@cawfree.com>",
@@ -27,6 +31,14 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "husky": "^4.2.5",
+    "jest": "^25.4.0",
+    "prettier": "^2.0.5",
     "react": "^16.9.0",
     "react-native": "^0.61.5"
   },
