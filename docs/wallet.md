@@ -19,7 +19,7 @@ To load a wallet, you need to provide two required parameters:
 In the example below, we call the promisified function `load(keystore:Object, password:String)` on the `Wallet` object to unlock our ethereum wallet.
 
 ```javascript
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Wallet } from "web3-react-native";
 
 // You should consider safe handling of sensitive keystore information
