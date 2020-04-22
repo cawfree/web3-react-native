@@ -11,7 +11,7 @@ export default ({ ...unusedProps }) => {
         KEYSTORE,
         PASSWORD,
       );
-      console.log('got result');
+      console.warn('got result', result);
     },
     [],
   );

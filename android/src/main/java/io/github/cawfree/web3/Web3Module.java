@@ -20,6 +20,8 @@ import org.web3j.tx.gas.DefaultGasProvider;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
@@ -95,8 +97,11 @@ public final class Web3Module extends ReactContextBaseJavaModule {
     final String uuid = UUID.randomUUID().toString();
     final File   f    = File.createTempFile(uuid, "json", this.getReactApplicationContext().getCacheDir());
 
+    final HashMap<String, Object> data = pKeystore.toHashMap();
+    final JSONObject j = new JSONObject(data);
+    debug("writing "+j.toString());
     // TODO: Delete the temporary file once we're done with it.
-    this.writeFile(f, pKeystore.toString());
+    this.writeFile(f, j.toString());
 
     // TODO: I would like to use loadJsonCredentials here, but it doesn't appear to be available in the latest version of web3-core.
     final Credentials creds = WalletUtils.loadCredentials(pPassword, f.getAbsolutePath());
