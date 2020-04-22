@@ -47,19 +47,13 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   }
 
   /* Member Variables. */
-  //private final ReactApplicationContext  mReactApplicationContext;
   private final Map<String, Credentials> mWallets;
-  //private       Web3j                   mWeb3j;
-  //private       Credentials             mCredentials;
 
   /** Constructor */
   public Web3Module(final ReactApplicationContext pReactApplicationContext) {
     super(pReactApplicationContext);
     // Initialize Member Variables.
-    //this.mReactApplicationContext = pReactApplicationContext;
-    this.mWallets                 = new HashMap();
-    //this.mWeb3j                   = null;
-    //this.mCredentials             = null;
+    this.mWallets = new HashMap();
   }
 
   /** Module name when imported via NativeModules. **/
@@ -85,13 +79,12 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   @ReactMethod
   public final void sendFunds(final ReadableMap pWallet, final String pUrl, final String pToAddress, final String pAmount, final String pUnits, final Promise pPromise) {
     try {
+      // Fetch the Credentials.
       final Credentials c = this.getWallets().get(pWallet.getString("address"));
       if (c != null) {
-        debug("found wallet");
         // XXX: Allocate the HttpService we'll use for this transaction.
         // TODO: Does this need to be destroyed? Is it worth caching?
         final Web3j web3j = Web3j.build(new HttpService(pUrl));
-        debug("allocd, trying");
         final TransactionReceipt tr = Transfer.sendFunds(
           web3j,
           c,
@@ -152,79 +145,5 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   private final Map<String, Credentials> getWallets() {
     return this.mWallets;
   }
-
-  //// XXX: Where to get wallet? Where to get password?
-  //@ReactMethod
-  //public final void create(final String pService, final String pPassword, final Promise pPromise) {
-  //  // Ensure we're being passed a valid service, such as "https://rinkeby.infura.io/<your token>"
-  //  if (pService != null && pService.length > 0) {
-  //    this.setWeb3j(Web3j.build(new HttpService(pService)));
-  //    // TODO: How to pass a wallet buffer? Where to get a wallet from? Anyone?!
-  //    this.setCredentials(WalletUtils.loadCredentials(pPassword, "/path/to/<walletfile>"));
-  //    // TODO: Can we return interesting properties, like the address of the wallet?
-  //    pPromise.resolve(Arguments.createMap());
-  //  } else {
-  //    pPromise.reject(new Exception("Calls to create() expect a non-null, non empty service name."));
-  //  }
-  //}
-
-  //// TODO: Validate parameters.
-  //@ReactMethod
-  //public final void sendFunds(final String pAddress, final String pAmount, final String pUnits, final Promise pPromise)  {
-  //  try {
-  //    this.throwIfMissingDependencies();
-  //    // TODO: Verify this transaction value propagates through.
-  //    final Transaction t = Transfer.sendFunds(this.getWeb3j(), this.getCredentials(), pAddress, new BigDecimal(pAmount), Convert.Unit.valueOf(pUnits));
-  //    // TODO: Propagate useful information.
-  //    // final String transactionHash = t.getTransactionHash();
-  //    pPromise.resolve(Arguments.createMap());
-  //  } catch (final Exception pException) {
-  //    pPromise.reject(pException);
-  //  }
-  //}
-
-  //@ReactMethod
-  //public final void destroy(final Promise pPromise) {
-  //  try {
-  //    this.throwIfMissingDependencies();
-  //    this.setWeb3j(null);
-  //    this.setCredentials(null);
-  //    pPromise.resolve(Arguments.createMap());
-  //  } catch (final Exception pException) {
-  //    pPromise.reject(pException);
-  //  }
-  //}
-
-  ///** Throws an Exception if the Service has not been configured. */
-  //private final void throwIfMissingDependencies() {
-  //  if (this.getWeb3j() == null || this.getCredentials() == null) {
-  //    throw new IllegalStateException("You must call create() before attempting to interact with a service.");
-  //  }
-  //}
-
-  /* Getters and Setters */
-  //private final ReactApplicationContext getReactApplicationContext() {
-  //  return this.mReactApplicationContext;
-  //}
-  //private final void setWeb3j(final Web3j pWeb3j) {
-  //  this.mWeb3j = pWeb3j;
-  //}
-
-  //private final Web3j getWeb3j() {
-  //  return this.mWeb3j;
-  //}
-
-  //private final void setCredentials(final Credentials pCredentials) {
-  //  this.mCredentials = pCredentials;
-  //}
-
-  //private final Credentials getCredentials() {
-  //  return this.mCredentials;
-  //}
-
-  //@ReactMethod
-  //public void sampleMethod(String stringArgument, int numberArgument, Callback callback) {
-  //    // TODO: Implement some actually useful functionality
-  //    callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
-  //}
+  
 }
