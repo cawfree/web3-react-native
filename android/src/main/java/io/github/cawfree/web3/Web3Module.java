@@ -82,10 +82,45 @@ public final class Web3Module extends ReactContextBaseJavaModule {
     return;
   }
 
+  @ReactMethod
+  public final void sendFunds(final ReadableMap pWallet, final String pUrl, final String pToAddress, final String pAmount, final String pUnits, final Promise pPromise) {
+    try {
+      final Credentials c = this.getWallets().get(pWallet.getString("address"));
+      if (c != null) {
+        debug("found wallet");
+        // XXX: Allocate the HttpService we'll use for this transaction.
+        // TODO: Does this need to be destroyed? Is it worth caching?
+        final Web3j web3j = Web3j.build(new HttpService(pUrl));
+        debug("allocd, trying");
+        final TransactionReceipt tr = Transfer.sendFunds(
+          web3j,
+          c,
+          pToAddress,
+          new BigDecimal(pAmount),
+          Convert.Unit.valueOf(pUnits)
+        )
+        .send();
+        // Declare the callback parameters.
+        final WritableMap args = Arguments.createMap();
+        // Buffer the hash for the transaction.
+        args.putString("transactionHash", tr.getTransactionHash());
+        // Propagate the arguments to the caller.
+        pPromise.resolve(args);
+        return;
+      }
+      throw new IllegalStateException("No credentials found!");
+    }
+    catch (final Exception pException) {
+      pPromise.reject(pException);
+    }
+    return;
+  }
+
   /** Writes string contents to a designated File. **/
   private void writeFile(final File pFile, final String pContent) throws IOException {
     final FileWriter fw = new FileWriter(pFile, true);
     fw.write(pContent);
+    // XXX: Ensure all of the bytes are written.
     fw.flush();
     fw.close();
   }

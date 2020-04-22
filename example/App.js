@@ -7,11 +7,17 @@ import { URL, KEYSTORE, PASSWORD } from 'react-native-dotenv';
 export default ({ ...unusedProps }) => {
   useEffect(
     async () => {
-      const { ...result } = await Wallet.load(
+      const { sendFunds } = await Wallet.load(
         KEYSTORE,
         PASSWORD,
       );
-      console.warn('got result', result);
+      const result = await sendFunds(
+        URL,
+        '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
+        '1',
+        'wei',
+      );
+      console.log(result);
     },
     [],
   );

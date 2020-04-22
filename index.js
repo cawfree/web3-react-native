@@ -19,9 +19,28 @@ const sanitizePassword = (p) => {
   throw new Error(`Expected non-null non-empty String password, encountered ${typeof p}.`);
 };
 
+const sanitizeUnits = (units) => {
+  if (units === "wei" || units === "WEI") {
+    return "WEI";
+  }
+  throw new Error(`Unsupported unit of eth, \"${units}\".`);
+};
+
 export const Wallet = Object.freeze({
   load: (k, p) => Web3.loadWallet(
     sanitizeKeystore(k),
     sanitizePassword(p),
-  ),
+  )
+    .then(
+      (wallet) => ({
+        sendFunds: (url, toAddress, amount, units) => Web3
+          .sendFunds(
+            wallet,
+            url,
+            toAddress,
+            amount,
+            sanitizeUnits(units),
+          ),
+      }),
+    ),
 });
