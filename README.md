@@ -1,24 +1,32 @@
 # web3-react-native
+[Web3](https://web3js.readthedocs.io/en/v1.2.6/) Native Modules for [React Native](https://reactnative.dev/).
 
-## Getting started
+## 🚀 Getting Started
 
-`$ npm install web3-react-native --save`
+Using [`npm`]():
 
-Create a wallet (currently expects version2)
-
-## Troubleshooting
-
-[Wallet Version must be `3`](https://github.com/web3j/web3j/blob/e4366f53c00ced3c94780bb1b47f3ca51f7b1993/core/src/main/java/org/web3j/crypto/Wallet.java#L240)
-
-### Mostly automatic installation
-
-`$ react-native link web3-react-native`
-
-## Usage
-
-```javascript
-import Web3 from 'web3-react-native';
-
-// TODO: What to do with the module?
-Web3;
+```bash
+npm install --save web3-react-native
 ```
+
+Using [`yarn`]():
+
+```bash
+yarn add web3-react-native
+```
+
+For versions less than [React Native 0.60](https://reactnative.dev/blog/2019/07/03/version-60), be sure to execute `react-native link` to make the native library dependencies visible to your compiled application.
+
+### iOS
+Remember to execute `pod install` within your iOS directory to synchronize the `Podfile`. Finally, make a new build of your app via `react-native run-ios`.
+
+### Android
+Perform a rebuild of your compiled application by calling `react-native run-android`.
+
+For usage details, please see the [documentation](./docs).
+
+## Donations
+
+If this repository has helped you out, please consider making a donation of [ETH](https://ethereum.org/).
+
+
