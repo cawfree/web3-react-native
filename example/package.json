@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "android": "cd .. ; yarn ; yarn build ; rm -rf node_modules ; cd example ; rm -rf node_modules ; yarn ; cd android ; ./gradlew clean ; cd .. ; react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "cd .. ; yarn ; yarn build ; rm -rf node_modules ; cd example ; rm -rf node_modules ; yarn ; cd ios ; rm Podfile.lock ; pod install ; cd .. ;react-native run-ios",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
