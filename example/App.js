@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
-import { Wallet } from 'web3-react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Web3 } from 'web3-react-native';
 
 import { URL, KEYSTORE, PASSWORD } from 'react-native-dotenv';
 
 export default ({ ...unusedProps }) => {
   useEffect(
     async () => {
+      const { Wallet } = await Web3(URL);
       const { sendFunds } = await Wallet.load(
         KEYSTORE,
         PASSWORD,
       );
       const result = await sendFunds(
-        URL,
         '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
         '1',
         'wei',

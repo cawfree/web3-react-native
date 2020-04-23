@@ -8,7 +8,7 @@
 
 A wallet is a public address which can be used to participate in ethereum transactions. You can use a wallet to both send and receive funds. Under the hood, a wallet represents your unique address on the ethereum network and the digital fingerprint which guarantees its authenticity.
 
-Wallets are created by calling `load()` on the `Wallet` object that is exported from `react-native-web3`.
+Wallets are created by calling `load()` on the `Wallet` object that is produced from a call to [`Web3(url)`]('./web3.md').
 
 To load a wallet, you need to provide two required parameters:
   - The JSON keystore.
@@ -20,7 +20,7 @@ In the example below, we call the promisified function `load(keystore:Object, pa
 
 ```javascript
 import React, { useEffect, useState } from "react";
-import { Wallet } from "web3-react-native";
+import { Web3 } from "web3-react-native";
 
 // You should consider safe handling of sensitive keystore information
 // such as serving it to the application via a https api.
@@ -30,11 +30,12 @@ export default () => {
   const [wallet, setWallet] = useState(null);
   // When the component is mounted, attempt to load the ethereum wallet.
   useEffect(
-    // XXX: Pass the keystore JSON.
-    () => Wallet.load(
-      keystore,
-      "my-keystore-password",
-    )
+    () => Web3('https://ropsten.infura.io/v3/<your-token>')
+      // XXX: Pass the keystore JSON.
+      .then(({ Wallet }) => Wallet.load(
+        keystore,
+        "my-keystore-password",
+      ))
       .then(setWallet)
       // XXX: If the password is wrong, or the keystore is malformed,
       //      an Error will be thrown in the Promise chain.
@@ -43,6 +44,8 @@ export default () => {
   );
 };
 ```
+
+> You must consider using [environment variables](https://github.com/zetachang/react-native-dotenv) to safely manage your configuration. This will greatly reduce your risks of loss or misuse.
 
 ## <a name="using-a-wallet"></a>2. Using a Wallet
 
@@ -70,14 +73,14 @@ Your wallet will first need some ethereum to be able to make a transaction. You 
 Creating a transaction takes the following form:
 
 ```javascript
-import { Wallet } from "web3-react-native";
+import { Web3 } from "web3-react-native";
 import { Linking } from "react-native";
 
 (async () => {
+  const { Wallet } = await Web3('https://ropsten.infura.io/v3/<your-token>');
   const { sendFunds } = await Wallet.load(keystore, password);
   // XXX: You can view your transaction by navigating to: https://ropsten.etherscan.io/tx/<your-transaction-hash>
   const { transactionHash } = await sendFunds(
-    'https://ropsten.infura.io/v3/<your-token>', // network url
     '0x19e03255f667bdfd50a32722df860b1eeaf4d635', // address of wallet you'd like to send to
     '1', // amount
     'wei', // 1 wei = 10^-18 Ether
@@ -90,10 +93,6 @@ import { Linking } from "react-native";
 ```
 
 #### `sendFunds(url:String, toAddress:String, amount:String, units:String)`
-
-**`url:String`**
-
-The address of the ethereum network you'd like to make the transaction. In the previous example, we use the Ropsten test network. The structure of this call allows the same `Wallet` instance to be reused across different ethereum networks.
 
 **`toAddress:String`**
 
