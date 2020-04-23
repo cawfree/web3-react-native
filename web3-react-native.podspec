@@ -22,7 +22,12 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React"
-  # ...
-  # s.dependency "..."
+
+  # TODO: We need some way to import Web3 as a header without triggering
+  #       compilation errors. As a workaround, we need to specify these
+  #       manually in the app's Podspec.
+  #s.dependency 'Web3', :modular_headers => true
+  #s.dependency 'secp256k1.swift', :modular_headers => true
+
 end
 
