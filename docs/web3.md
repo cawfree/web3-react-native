@@ -4,7 +4,7 @@
 
 ## <a name="connecting"></a>1. Connecting to a Network
 
-All transactions you make using `Web3` are required to take place on a designated ethereum network. This is how addresses on the network can send funds to one-another. In this respect, all of the functionality of `web3-react-native` sits behind our initial network configuration.
+Every transaction you make using `Web3` is required to take place on a designated ethereum network. This is how addresses on the network can send funds to one-another.
 
 In the example below, we show how to initialize a connection.
 
@@ -12,12 +12,15 @@ In the example below, we show how to initialize a connection.
 import { Web3 } from "web3-react-native";
 
 (async () => {
-  const url = 'https://ropsten.infura.io/v3/<your-token>';
-  await Web3(url);
+  await Web3('https://ropsten.infura.io/v3/<your-token>');
 })();
 ```
 
-The network `url` dictates where all of your transactions will take place. In our examples, we'll be using the [Ropsten](https://ropsten.etherscan.io/) test network, which ensures that all of the transactions we perform will be made using test ether. However, with a simple switch it's easy to start working with using real transactions:
+The network `url` dictates where all of your transactions will take place. In this documentation, we'll frequently be using the [Ropsten](https://ropsten.etherscan.io/) test network, which ensures that all of the transactions we perform will be made using **test ether**.
+
+However, with a simple switch it's easy to start using the same code to make transactions using **real ether**, with real monetary value.
+
+In the example below, we demonstrate one way of how we could dynamically swap between production and test networks:
 
 ```javascript
 import { Web3 } from "web3-react-native";
@@ -50,7 +53,9 @@ import { Web3 } from "web3-react-native";
 
 The address of the ethereum network you'd like to make the transaction. In the previous example, we use the Ropsten test network. The structure of this call allows the same [`Wallet`](./wallet.md) instance to be reused across different ethereum networks.
 
-A successful invocation of `Web3()` will resolve with a `Promise` which returns the functionality of `web3-react-native` scoped to the specified `url`. In the example below, we show how to access the [`Wallet`](./wallet.md) object:
+A successful invocation of `Web3()` will resolve with a `Promise` which returns the functionality of `web3-react-native` scoped to the specified `url`.
+
+In the example below, we show how to access the [`Wallet`](./wallet.md) object:
 
 ```javascript
 import { Web3 } from "web3-react-native";

@@ -17,7 +17,7 @@ export default ({ ...unusedProps }) => {
         '1',
         'wei',
       );
-      console.log(result);
+      console.warn(result);
     },
     [],
   );
