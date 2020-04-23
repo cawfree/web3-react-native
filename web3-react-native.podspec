@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
 
   # TODO: We need some way to import web3swift as a header without
   #       triggering compilation errors. As a workaround, we
-  #       manually these in the app's Podspec.
+  #       manually define these in the app's Podspec.
 
   # s.dependency 'secp256k1.c', '0.1.2', :modular_headers => true
   # s.dependency 'web3swift', '2.2.1', :modular_headers => true
