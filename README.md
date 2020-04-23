@@ -32,24 +32,12 @@ pod 'secp256k1.c', '0.1.2', :modular_headers => true
 pod 'web3swift', '2.2.1', :modular_headers => true
 ```
 
-> ⚠️ This is a current workaround for defintion constraints in the  [Podspec](https://github.com/cawfree/web3-react-native/blob/63664f366c436aed73083b6b0a5cbf0b7374bfd3/web3-react-native.podspec#L26). This requirement will be removed in future revisions.
+> ⚠️ This is the current workaround for defintion constraints in the  [Podspec](https://github.com/cawfree/web3-react-native/blob/63664f366c436aed73083b6b0a5cbf0b7374bfd3/web3-react-native.podspec#L26). This requirement will be lifted in future revisions.
 
 ### Android
 Perform a rebuild of your compiled application by calling `react-native run-android`.
 
 For usage details, please see the [**documentation**](./docs).
-
-## 🌠 Donations
-
-If you want to help keep this project alive,  please consider making a donation of [**ETH**](https://ethereum.org/) to the following address:
-
-<p align="center">
-  <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
-    <img src="./public/qr.png" width="128" height="128" />
-  </a>
-  <br />
-  0x4b567985E550f004D3255C54083D90206BD14672
-</p>
 
 ## ✌️ License
 [**MIT**](./LICENSE)
