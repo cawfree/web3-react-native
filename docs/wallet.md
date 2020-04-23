@@ -1,4 +1,4 @@
-## Table of Contents
+## `Wallet`
   - [1. Loading a Wallet](#loading-a-wallet)
   - [2. Using a Wallet](#using-a-wallet)
     - [2.1 `sendFunds`](#sending-funds)
