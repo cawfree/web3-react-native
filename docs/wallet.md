@@ -8,7 +8,7 @@
 
 A wallet is a public address which can be used to participate in ethereum transactions. You can use a wallet to both send and receive funds. Under the hood, a wallet represents your unique address on the ethereum network and the digital fingerprint which guarantees its authenticity.
 
-Wallets are created by calling `load()` on the `Wallet` object that is produced from a call to [`Web3(url)`]('./web3.md').
+Wallets are created by calling `load()` on the `Wallet` object that is produced from a call to [`Web3(url)`](./web3.md).
 
 To load a wallet, you need to provide two required parameters:
   - The JSON keystore.
