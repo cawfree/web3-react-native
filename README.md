@@ -24,7 +24,13 @@ yarn add web3-react-native
 For versions less than [**React Native 0.60**](https://reactnative.dev/blog/2019/07/03/version-60), be sure to execute `react-native link` to make the native library dependencies visible to your compiled application.
 
 ### iOS
-Remember to execute `pod install` within your iOS directory to synchronize the `Podfile`. Finally, make a new build of your app via `react-native run-ios`.
+After installing, [you'll need to append](https://github.com/cawfree/web3-react-native/blob/cb8f80178caa43022e42e6ca67245918ccb7dfeb/web3-react-native.podspec#L26) the following lines to your app's `ios/Podfile` then execute `pod install`:
+
+```
+# web3-react-native
+pod 'secp256k1.swift', :modular_headers => true
+pod 'Web3', :modular_headers => true
+```
 
 ### Android
 Perform a rebuild of your compiled application by calling `react-native run-android`.
