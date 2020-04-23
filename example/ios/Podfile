@@ -78,10 +78,9 @@ target 'example' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  # This is a workaround to support dependency errors when using :modular_headers in
-  # web3-react-native.podspec.
-  pod 'secp256k1.swift', :modular_headers => true
-  pod 'Web3', :modular_headers => true
+  # web3-react-native
+  pod 'secp256k1.c', '0.1.2', :modular_headers => true
+  pod 'web3swift', '2.2.1', :modular_headers => true
 
   target 'exampleTests' do
     inherit! :complete
