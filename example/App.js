@@ -8,16 +8,17 @@ export default ({ ...unusedProps }) => {
   useEffect(
     async () => {
       const { Wallet } = await Web3(URL);
-      const { sendFunds } = await Wallet.load(
-        KEYSTORE,
-        PASSWORD,
-      );
-      const result = await sendFunds(
-        '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
-        '1',
-        'wei',
-      );
-      console.warn(result);
+      console.warn(await Wallet.load({x:3}, "some-password"));
+      //const { sendFunds } = await Wallet.load(
+      //  KEYSTORE,
+      //  PASSWORD,
+      //);
+      //const result = await sendFunds(
+      //  '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
+      //  '1',
+      //  'wei',
+      //);
+      //console.warn(result);
     },
     [],
   );
