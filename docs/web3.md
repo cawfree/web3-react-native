@@ -1,6 +1,6 @@
 # `Web3`
   - [1. Connecting to a Network](#connecting)
-  - [1.1 `Web3`](#web3)
+    - [1.1 `Web3`](#web3)
 
 ## <a name="connecting"></a>1. Connecting to a Network
 
