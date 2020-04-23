@@ -32,8 +32,7 @@ pod 'secp256k1.c', '0.1.2', :modular_headers => true
 pod 'web3swift', '2.2.1', :modular_headers => true
 ```
 
-> ⚠️ This is an ugly workaround for existing defintion constraints in the  [Podspec](https://github.com/cawfree/web3-react-native/blob/63664f366c436aed73083b6b0a5cbf0b7374bfd3/web3-react-native.podspec#L26).
-> The requirement to modify React Native's vanilla `Podfile` will be lifted in future revisions of this library.
+> ⚠️ This is an ugly workaround for existing definition constraints in the  [Podspec](https://github.com/cawfree/web3-react-native/blob/63664f366c436aed73083b6b0a5cbf0b7374bfd3/web3-react-native.podspec#L26). ([View Issue](https://github.com/cawfree/web3-react-native/issues/1)).
 
 ### Android
 Perform a rebuild of your compiled application by calling `react-native run-android`.
