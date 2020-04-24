@@ -27,8 +27,8 @@ Pod::Spec.new do |s|
   #       triggering compilation errors. As a workaround, we
   #       manually define these in the app's Podspec.
 
-  # s.dependency 'secp256k1.c', '0.1.2', :modular_headers => true
-  # s.dependency 'web3swift', '2.2.1', :modular_headers => true
+  s.dependency 'secp256k1.c', '0.1.2'
+  s.dependency 'web3swift', '2.2.1'
 
 end
 
