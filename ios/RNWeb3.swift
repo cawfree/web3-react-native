@@ -1,6 +1,6 @@
 //
-//  Web3.swift
-//  Web3
+//  RNWeb3.swift
+//  RNWeb3
 //
 //  Created by Alex Thomas on 23/04/2020.
 //  Copyright © 2020 Facebook. All rights reserved.
@@ -13,8 +13,8 @@ enum Web3Error: Error {
   case runtimeError(String)
 }
 
-@objc(Web3)
-class Web3: NSObject {
+@objc(RNWeb3)
+class RNWeb3: NSObject {
   var creds : [String : EthereumKeystoreV3] = [:];
   @objc
   func loadWallet(
@@ -52,10 +52,8 @@ class Web3: NSObject {
       let address = (wallet["address"] as? String)!;
       let ks = creds[address];
       let w  = web3(provider: Web3HttpProvider(URL(string: url as String)!)!);
-      
       let keystoreManager = KeystoreManager([ks!]);
       w.addKeystoreManager(keystoreManager);
-        
       resolve(["transactionHash": "you got this far"]);
     } catch {
       reject("E_SENDFUNDS", "Failed to open wallet.", error);
