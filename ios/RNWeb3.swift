@@ -27,13 +27,27 @@ class RNWeb3: NSObject {
     do {
       let data = try JSONSerialization.data(withJSONObject: keystore, options: []);
       let jsonStr = String(data: data, encoding: .ascii);
-      let ks = EthereumKeystoreV3.init(jsonStr!);
-      let address = ks?.getAddress()?.address;
+      let ks : EthereumKeystoreV3 = EthereumKeystoreV3.init(jsonStr!)!;
+      let address : String = ks.getAddress()!.address;
       
-      creds[address!] = ks;
+      creds[address] = ks;
       resolve(["address": address]);
     } catch {
-      reject("E_KEYSTORE", "Failed to deserialize keystore.", error);
+      reject("E_KEYSTORE", "\(error)", error);
+    }
+  }
+
+  func unitsFor(_ units: String) throws -> web3swift.Web3.Utils.Units {
+    switch (units) {
+        case "WEI": return Web3.Utils.Units.wei;
+        case "KWEI": return Web3.Utils.Units.Kwei;
+        case "MWEI": return Web3.Utils.Units.Mwei;
+        case "GWEI": return Web3.Utils.Units.Gwei;
+        case "SZABO": return Web3.Utils.Units.Microether;
+        case "FINNEY": return Web3.Utils.Units.Finney;
+        case "ETHER": return Web3.Utils.Units.eth;
+      default:
+      throw Web3Error.runtimeError("some message");
     }
   }
   
@@ -42,6 +56,7 @@ class RNWeb3: NSObject {
     _
     wallet: NSDictionary,
     url: NSString,
+    password: NSString,
     toAddress: NSString,
     amount: NSString,
     units: NSString,
@@ -50,13 +65,34 @@ class RNWeb3: NSObject {
   ) -> Void {
     do {
       let address = (wallet["address"] as? String)!;
+      let provider : String = url as String;
+      
       let ks = creds[address];
-      let w  = web3(provider: Web3HttpProvider(URL(string: url as String)!)!);
+      let w  = web3(provider: Web3HttpProvider(URL(string: provider)!)!);
       let keystoreManager = KeystoreManager([ks!]);
       w.addKeystoreManager(keystoreManager);
-      resolve(["transactionHash": "you got this far"]);
+      
+      let walletAddress = EthereumAddress(address)!;
+      
+      let toAddr: String = toAddress as String;
+      let at = EthereumAddress(toAddr);
+      
+      let contract = w.contract(Web3.Utils.coldWalletABI, at: at, abiVersion: 2);
+      let value = try Web3.Utils.parseToBigUInt((amount as String), units: self.unitsFor(units as String));
+      
+      var options = TransactionOptions.defaultOptions;
+      options.value = value;
+      options.from = walletAddress;
+      options.gasPrice = .automatic;
+      options.gasLimit = .automatic;
+        
+      let tx = contract!.write("fallback", parameters: [AnyObject](), extraData: Data(), transactionOptions: options)!
+        
+      let res = try tx.send(password: (password as String));
+        
+      resolve(["transactionHash": res.hash]);
     } catch {
-      reject("E_SENDFUNDS", "Failed to open wallet.", error);
+      reject("E_SENDFUNDS", "\(error)", error);
     }
   }
     

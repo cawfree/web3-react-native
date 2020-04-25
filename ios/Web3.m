@@ -12,6 +12,7 @@ RCT_EXTERN_METHOD(
 RCT_EXTERN_METHOD(
   sendFunds: (NSDictionary)wallet
   url: (NSString)url
+  password: (NSString)password
   toAddress: (NSString)toAddress
   amount: (NSString)amount
   units: (NSString)units

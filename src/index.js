@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 import { typeCheck } from 'type-check';
 
 const { Web3: RNWeb3 } = NativeModules;
@@ -19,27 +19,21 @@ const sanitizePassword = (p) => {
   throw new Error(`Expected non-null non-empty String password, encountered ${typeof p}.`);
 };
 
+const ethUnits = Object.freeze(
+  {
+    wei: 'WEI',
+    kwei: 'KWEI',
+    mwei: 'MWEI',
+    gwei: 'GWEI',
+    finney: 'FINNEY',
+    eth: 'ETHER',
+  },
+);
+
 const sanitizeUnits = (units) => {
-  if (units === "wei" || units === "WEI") {
-    return "WEI";
-  } else if (units === "kwei" || units === "KWEI") {
-    return "KWEI";
-  } else if (units === "mwei" || units === "MWEI") {
-    return "MWEI";
-  } else if (units === "gwei" || units === "GWEI") {
-    return "GWEI";
-  } else if (units === "szabo" || units === "SZABO") {
-    return "SZABO";
-  } else if (units === "finney" || units === "FINNEY") {
-    return "FINNEY";
-  } else if (units === "ether" || units === "ETHER") {
-    return "ETHER";
-  } else if (units === "kether" || units === "KETHER") {
-    return "KETHER";
-  } else if (units === "mether" || units === "METHER") {
-    return "METHER";
-  } else if (units === "gether" || units === "GETHER") {
-    return "GETHER";
+  const { [units]: u } = ethUnits;
+  if (typeCheck("String", u)) {
+    return u;
   }
   throw new Error(`Unsupported unit of eth, \"${units}\".`);
 };
@@ -51,12 +45,13 @@ const sanitizeUrl = (url) => {
   throw new Error(`Expected non-null, non-empty String, encountered ${url}.`);
 };
 
-const createWallet = ({ ...wallet }, url) => Object.freeze({
+const createWallet = ({ ...wallet }, url, password) => Object.freeze({
   ...wallet,
   sendFunds: (toAddress, amount, units) => RNWeb3
     .sendFunds(
       wallet,
       url,
+      password,
       toAddress,
       amount,
       sanitizeUnits(units),
@@ -71,11 +66,15 @@ export const Web3 = url => Promise
     url => Object.freeze(
       {
         Wallet: Object.freeze({
-          load: (k, p) => RNWeb3.loadWallet(
-            sanitizeKeystore(k),
-            sanitizePassword(p),
-          )
-            .then(wallet => createWallet(wallet, url)),
+          load: (k, p) => Promise
+            .resolve([sanitizeKeystore(k), sanitizePassword(p)])
+            .then(
+              ([k, p]) => RNWeb3.loadWallet(
+                k,
+                p,
+              )
+              .then(wallet => createWallet(wallet, url, p)),
+            ),
         })
       },
     ),

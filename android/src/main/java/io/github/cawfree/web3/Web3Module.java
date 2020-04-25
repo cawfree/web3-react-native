@@ -77,7 +77,7 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public final void sendFunds(final ReadableMap pWallet, final String pUrl, final String pToAddress, final String pAmount, final String pUnits, final Promise pPromise) {
+  public final void sendFunds(final ReadableMap pWallet, final String pUrl, final String pPassword, final String pToAddress, final String pAmount, final String pUnits, final Promise pPromise) {
     try {
       // Fetch the Credentials.
       final Credentials c = this.getWallets().get(pWallet.getString("address"));
