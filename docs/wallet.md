@@ -112,7 +112,6 @@ The units of the amount to send to the `toAddress`. This can be one of the follo
 | `"kwei" `     | 1e3 wei       | 1,000                         |
 | `"mwei"`      | 1e6 wei       | 1,000,000                     |
 | `"gwei" `     | 1e9 wei       | 1,000,000,000                 |
-| `"szabo" `    | 1e12 wei      | 1,000,000,000,000             |
 | `"finney"`    | 1e15 wei      | 1,000,000,000,000,000         |
 | `"ether"`     | 1e18 wei      | 1,000,000,000,000,000,000     |
 

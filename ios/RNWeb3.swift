@@ -43,7 +43,6 @@ class RNWeb3: NSObject {
         case "KWEI": return Web3.Utils.Units.Kwei;
         case "MWEI": return Web3.Utils.Units.Mwei;
         case "GWEI": return Web3.Utils.Units.Gwei;
-        case "SZABO": return Web3.Utils.Units.Microether;
         case "FINNEY": return Web3.Utils.Units.Finney;
         case "ETHER": return Web3.Utils.Units.eth;
       default:
