@@ -55,12 +55,12 @@ The address of the ethereum network you'd like to make the transaction. In the p
 
 A successful invocation of `Web3()` will resolve with a `Promise` which returns the functionality of `web3-react-native` scoped to the specified `url`.
 
-In the example below, we show how to access the [`Wallet`](./wallet.md) object:
+In the example below, we show how to access the [`Wallet`](./wallet.md) and [`Keystore`](./keystore.md) objects:
 
 ```javascript
 import { Web3 } from "web3-react-native";
 
 (async () => {
-  const { Wallet, ...extras } = await Web3('https://ropsten.infura.io/v3/<your-token>');
+  const { Wallet, Keystore } = await Web3('https://ropsten.infura.io/v3/<your-token>');
 })();
 ```

@@ -46,6 +46,14 @@ export default ({ ...unusedProps }) => {
     [],
   );
   useEffect(
+    () => Web3(URL)
+      .then(({ Keystore }) => Keystore.create('some password!'))
+      .then(
+        ({ ...keystoreData }) => console.warn(keystoreData),
+      ) && undefined,
+    [],
+  );
+  useEffect(
     () => {
       if (!!transactionHash) {
         Animated.timing(animSuccess, { toValue: 1, useNativeDriver: true, duration: 1000 }).start();

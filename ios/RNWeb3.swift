@@ -16,6 +16,20 @@ enum Web3Error: Error {
 @objc(RNWeb3)
 class RNWeb3: NSObject {
   var creds : [String : EthereumKeystoreV3] = [:];
+
+  func unitsFor(_ units: String) throws -> web3swift.Web3.Utils.Units {
+    switch (units) {
+        case "WEI": return Web3.Utils.Units.wei;
+        case "KWEI": return Web3.Utils.Units.Kwei;
+        case "MWEI": return Web3.Utils.Units.Mwei;
+        case "GWEI": return Web3.Utils.Units.Gwei;
+        case "FINNEY": return Web3.Utils.Units.Finney;
+        case "ETHER": return Web3.Utils.Units.eth;
+      default:
+      throw Web3Error.runtimeError("some message");
+    }
+  }
+
   @objc
   func loadWallet(
     _
@@ -37,18 +51,22 @@ class RNWeb3: NSObject {
     }
   }
 
-  func unitsFor(_ units: String) throws -> web3swift.Web3.Utils.Units {
-    switch (units) {
-        case "WEI": return Web3.Utils.Units.wei;
-        case "KWEI": return Web3.Utils.Units.Kwei;
-        case "MWEI": return Web3.Utils.Units.Mwei;
-        case "GWEI": return Web3.Utils.Units.Gwei;
-        case "FINNEY": return Web3.Utils.Units.Finney;
-        case "ETHER": return Web3.Utils.Units.eth;
-      default:
-      throw Web3Error.runtimeError("some message");
+  @objc
+  func createKeystore(
+    _
+    password: NSString,
+    resolve: RCTPromiseResolveBlock,
+    reject: RCTPromiseRejectBlock
+  ) -> Void {
+    do {
+      let keystore = try! EthereumKeystoreV3(password: (password as String))!
+      let data = try! keystore.serialize();
+      let d2 = (try! JSONSerialization.jsonObject(with: data!));
+      resolve(d2);
+    } catch {
+      reject("E_CREATEW", "\(error)", error);
     }
-  }
+  } 
   
   @objc
   func sendFunds(
@@ -64,17 +82,14 @@ class RNWeb3: NSObject {
   ) -> Void {
     do {
       let address = (wallet["address"] as? String)!;
-      let provider : String = url as String;
       
       let ks = creds[address];
-      let w  = web3(provider: Web3HttpProvider(URL(string: provider)!)!);
+      let w  = web3(provider: Web3HttpProvider(URL(string: (url as String))!)!);
       let keystoreManager = KeystoreManager([ks!]);
       w.addKeystoreManager(keystoreManager);
       
       let walletAddress = EthereumAddress(address)!;
-      
-      let toAddr: String = toAddress as String;
-      let at = EthereumAddress(toAddr);
+      let at = EthereumAddress((toAddress as String));
       
       let contract = w.contract(Web3.Utils.coldWalletABI, at: at, abiVersion: 2);
       let value = try Web3.Utils.parseToBigUInt((amount as String), units: self.unitsFor(units as String));
