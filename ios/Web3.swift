@@ -15,6 +15,7 @@ enum Web3Error: Error {
 
 @objc(Web3)
 class Web3: NSObject {
+  var creds : [String : EthereumKeystoreV3] = [:];
   @objc
   func loadWallet(
     _
@@ -27,8 +28,10 @@ class Web3: NSObject {
       let data = try JSONSerialization.data(withJSONObject: keystore, options: []);
       let jsonStr = String(data: data, encoding: .ascii);
       let ks = EthereumKeystoreV3.init(jsonStr!);
-      let wallet = ["address": ks?.getAddress()?.address];
-      resolve(wallet);
+      let address = ks?.getAddress()?.address;
+      
+      creds[address!] = ks;
+      resolve(["address": address]);
     } catch {
       reject("E_KEYSTORE", "Failed to deserialize keystore.", error);
     }
@@ -45,12 +48,18 @@ class Web3: NSObject {
     resolve: RCTPromiseResolveBlock,
     reject: RCTPromiseRejectBlock
   ) -> Void {
-//    guard let web3 = Web3(url: URL(string: url)!) else {
-//      reject(Web3Error.runtimeError("Failed to load Web3."));
-//      return;
-//    }
-//    return web3
-    resolve("done2");
+    do {
+      let address = (wallet["address"] as? String)!;
+      let ks = creds[address];
+      let w  = web3(provider: Web3HttpProvider(URL(string: url as String)!)!);
+      
+      let keystoreManager = KeystoreManager([ks!]);
+      w.addKeystoreManager(keystoreManager);
+        
+      resolve(["transactionHash": "you got this far"]);
+    } catch {
+      reject("E_SENDFUNDS", "Failed to open wallet.", error);
+    }
   }
     
   @objc

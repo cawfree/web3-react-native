@@ -12,13 +12,12 @@ export default ({ ...unusedProps }) => {
         KEYSTORE,
         PASSWORD,
       );
-      console.warn(address);
-      //const result = await sendFunds(
-      //  '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
-      //  '1',
-      //  'wei',
-      //);
-      //console.warn(result);
+      const { transactionHash } = await sendFunds(
+        '0x19e03255f667bdfd50a32722df860b1eeaf4d635',
+        '1',
+        'wei',
+      );
+      console.warn(transactionHash);
     },
     [],
   );
