@@ -1,6 +1,6 @@
 {
   "name": "web3-react-native",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "⚛️ Web3 Native Modules for React Native.",
   "main": "dist",
   "scripts": {
