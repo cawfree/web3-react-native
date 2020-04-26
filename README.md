@@ -1,8 +1,8 @@
-<p align="center">
+<div align="center">
   <a href="https://github.com/cawfree/web3-react-native" alt="web3-react-native">
-    <img src="./public/logo.png" width="640" height="452" />
+    <img src="./public/logo.png" width="320" height="226" />
   </a>
-</p>
+</div>
 
 # web3-react-native
 [**Web3**](https://web3js.readthedocs.io/en/v1.2.6/) Native Modules for [**React Native**](https://reactnative.dev/).

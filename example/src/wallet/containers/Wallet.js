@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import { typeCheck } from "type-check";
 import { Linking, Clipboard } from "react-native";
+import { withNavigation } from '@react-navigation/compat';
 
-import WalletCard from "../components/WalletCard";
+import Wallet from "../components/Wallet";
 
 const onRequestAddFunds = (e, wallet) => (dispatch, getState) => Promise
   .resolve()
@@ -17,15 +18,22 @@ const onRequestAddFunds = (e, wallet) => (dispatch, getState) => Promise
     },
   );
 
+const onRequestMakeTransaction = (e, navigation, wallet) => (dispatch, getState) => Promise
+  .resolve()
+  .then(
+    () => navigation.navigate('makeTransaction', wallet),
+  );
+
 const mapStateToProps = (state, ownProps) => {
   return {};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  const { wallet } = ownProps;
+  const { wallet, navigation } = ownProps;
   return {
     onRequestAddFunds: e => dispatch(onRequestAddFunds(e, wallet)),
+    onRequestMakeTransaction: e => dispatch(onRequestMakeTransaction(e, navigation, wallet)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletCard);
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Wallet));
