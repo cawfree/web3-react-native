@@ -1,6 +1,7 @@
 # OSX
 #
 .DS_Store
+android/src/main/java/io/github/cawfree/web3/javac*
 
 # node.js
 #

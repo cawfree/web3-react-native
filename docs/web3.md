@@ -32,7 +32,7 @@ import { Web3 } from "web3-react-native";
 })();
 ```
 
-> ⚠️ This kind of implementation is **not recommended**, because developers often switch between `development` and `production` bundler modes to test certain features and may not necessarily wish to use real currency. You should make ethereum network `url`s a function of [environment config](https://github.com/zetachang/react-native-dotenv) to prevent mistakes or misuse. You can find a demonstration of this in the [example application]('../example/App.js').
+> ⚠️ This kind of implementation is **not recommended**, because developers often switch between `development` and `production` bundler modes to test certain features and may not necessarily wish to use real currency. You should make ethereum network `url`s a function of [environment config](https://github.com/zetachang/react-native-dotenv) to prevent mistakes or misuse. You can find a demonstration of this in the [example application](../example/App.js).
 
 It is also possible to instantiate multiple simultaneous connections. These are guaranteed not to interfere with one-another:
 
@@ -55,12 +55,12 @@ The address of the ethereum network you'd like to make the transaction. In the p
 
 A successful invocation of `Web3()` will resolve with a `Promise` which returns the functionality of `web3-react-native` scoped to the specified `url`.
 
-In the example below, we show how to access the [`Wallet`](./wallet.md) object:
+In the example below, we show how to access the [`Wallet`](./wallet.md) and [`Keystore`](./keystore.md) objects:
 
 ```javascript
 import { Web3 } from "web3-react-native";
 
 (async () => {
-  const { Wallet, ...extras } = await Web3('https://ropsten.infura.io/v3/<your-token>');
+  const { Wallet, Keystore } = await Web3('https://ropsten.infura.io/v3/<your-token>');
 })();
 ```

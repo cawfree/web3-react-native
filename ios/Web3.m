@@ -3,6 +3,12 @@
 @interface RCT_EXTERN_REMAP_MODULE(Web3, RNWeb3, NSObject)
 
 RCT_EXTERN_METHOD(
+  createKeystore: (NSString)password
+  resolve: (RCTPromiseResolveBlock)resolve
+  reject: (RCTPromiseRejectBlock)reject
+)
+
+RCT_EXTERN_METHOD(
   loadWallet: (NSDictionary)keystore
   password: (NSString)password
   resolve: (RCTPromiseResolveBlock)resolve

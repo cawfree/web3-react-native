@@ -65,6 +65,15 @@ export const Web3 = url => Promise
   .then(
     url => Object.freeze(
       {
+        Keystore: Object.freeze({
+          create: (p) => Promise
+            .resolve([sanitizePassword(p)])
+            .then(
+              ([p]) => RNWeb3.createKeystore(
+                p,
+              ),
+            ),
+        }),
         Wallet: Object.freeze({
           load: (k, p) => Promise
             .resolve([sanitizeKeystore(k), sanitizePassword(p)])
