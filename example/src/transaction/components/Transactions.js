@@ -4,6 +4,8 @@ import { View, StyleSheet } from "react-native";
 import { H1, Text } from 'native-base';
 import Carousel from 'react-native-snap-carousel';
 
+import Transaction from "../containers/Transaction";
+
 const styles = StyleSheet.create({
   text: { marginLeft: 15, color: 'white', marginBottom: 15 },
 });
@@ -28,8 +30,9 @@ const Transactions = ({ transactions, width, ...extraProps }) => {
         <Carousel
           data={transactions.toJS()}
           renderItem={({ item: transaction, index}) => (
-            <View
+            <Transaction
               key={index}
+              transaction={transaction}
             />
           )}
           sliderWidth={width}

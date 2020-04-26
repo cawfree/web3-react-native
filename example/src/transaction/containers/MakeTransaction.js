@@ -3,6 +3,8 @@ import { withNavigation } from "@react-navigation/compat";
 
 import MakeTransaction from "../components/MakeTransaction";
 
+import { receiveTransaction } from "../actions";
+
 const onPressSubmit = (e, navigation, wallet, toAddress, amount, units) => (dispatch, getState) => Promise
   .resolve()
   .then(
@@ -14,7 +16,9 @@ const onPressSubmit = (e, navigation, wallet, toAddress, amount, units) => (disp
         units,
       );
     },
-  );
+  )
+  .then(e => dispatch(receiveTransaction(e)))
+  .then(() => navigation.goBack());
 
 const mapStateToProps = (state, ownProps) => {
   const { route: { params } } = ownProps;
