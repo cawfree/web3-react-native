@@ -22,13 +22,20 @@ import org.web3j.utils.Numeric;
 
 import org.json.JSONObject;
 
+import java.security.Security;
+import java.security.Provider;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.util.UUID;
 import java.util.Map;
 import java.util.HashMap;
 import java.math.BigDecimal;
+import java.lang.StringBuilder;
 
 // TODO: Remove this!
 import android.util.Log;
@@ -49,6 +56,16 @@ public final class Web3Module extends ReactContextBaseJavaModule {
   /* Member Variables. */
   private final Map<String, Credentials> mWallets;
 
+  // https://github.com/web3j/web3j/issues/915#issuecomment-483145928
+  private static final void setupBouncyCastle() {
+    final Provider p = Security.getProvider(BouncyCastleProvider.PROVIDER_NAME);
+    if (p == null || p.getClass().equals(BouncyCastleProvider.class)) {
+      return;
+    }
+    Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME);
+    Security.insertProviderAt(new BouncyCastleProvider(), 1);
+  }
+
   /** Constructor */
   public Web3Module(final ReactApplicationContext pReactApplicationContext) {
     super(pReactApplicationContext);
@@ -58,6 +75,29 @@ public final class Web3Module extends ReactContextBaseJavaModule {
 
   /** Module name when imported via NativeModules. **/
   @Override public String getName() { return "Web3"; }
+
+  @ReactMethod
+  public final void createKeystore(final String pPassword, final Promise pPromise) {
+    try {
+      // Setup Bouncy Castle.
+      Web3Module.setupBouncyCastle();
+      // Fetch the cache directory.
+      final File dir = this.getReactApplicationContext().getCacheDir();
+      // Generate the new Wallet.
+      final String name = WalletUtils.generateNewWalletFile(pPassword, dir);
+      final File f = new File(dir.getAbsolutePath() + File.separator + name);
+      // Parse the Keystore into a JSONObject.
+      final JSONObject ks = new JSONObject(Web3Module.readFile(f));
+      // Delete the temporary file.
+      f.delete();
+      // Propagate the keystore back to the caller.
+      pPromise.resolve(Arguments.fromBundle(new BundleJSONConverter().convertToBundle(ks)));
+    }
+    catch (final Exception pException) {
+      pPromise.reject(pException);
+    }
+    return;
+  }
 
   @ReactMethod
   public final void loadWallet(final ReadableMap pKeystore, final String pPassword, final Promise pPromise) {
@@ -109,8 +149,21 @@ public final class Web3Module extends ReactContextBaseJavaModule {
     return;
   }
 
+  /** Reads the string contents of a File. **/
+  private static final String readFile(final File pFile) throws IOException {
+    final StringBuilder sb = new StringBuilder();
+    final BufferedReader br = new BufferedReader(new FileReader(pFile));  
+    String s;
+    while ((s = br.readLine()) != null) {
+      sb.append(s);
+      sb.append('\n');
+    }
+    br.close();
+    return sb.toString();
+  }
+
   /** Writes string contents to a designated File. **/
-  private void writeFile(final File pFile, final String pContent) throws IOException {
+  private static final void writeFile(final File pFile, final String pContent) throws IOException {
     final FileWriter fw = new FileWriter(pFile, true);
     fw.write(pContent);
     // XXX: Ensure all of the bytes are written.
@@ -118,16 +171,17 @@ public final class Web3Module extends ReactContextBaseJavaModule {
     fw.close();
   }
 
+  /** Creates a temporary file reference. **/
+  private final File createTempFile() throws IOException {
+    return File.createTempFile(UUID.randomUUID().toString(), "json", this.getReactApplicationContext().getCacheDir());
+  }
+
   /** Adds a Wallet to the in-memory map. */
   private final String addWallet(final ReadableMap pKeystore, final String pPassword) throws IOException, CipherException {
-    final File f = File.createTempFile(
-      UUID.randomUUID().toString(),
-      "json",
-      this.getReactApplicationContext().getCacheDir()
-    );
+    final File f = this.createTempFile(); 
     // XXX:  Write the supplied data to a temporary file.
     // TODO: Use loadJsonCredentials.
-    this.writeFile(f, new JSONObject(pKeystore.toHashMap()).toString());
+    Web3Module.writeFile(f, new JSONObject(pKeystore.toHashMap()).toString());
 
     // Load the Credentials.
     final Credentials c = WalletUtils.loadCredentials(pPassword, f.getAbsolutePath());

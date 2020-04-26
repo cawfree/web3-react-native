@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet } from "react-native";
 import { Button, Container, Header, Content, Form, Item, Input, Text, Label, Spinner, Picker } from 'native-base';

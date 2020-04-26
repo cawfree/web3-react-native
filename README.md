@@ -35,6 +35,14 @@ pod 'web3swift', '2.2.1', :modular_headers => true
 > ⚠️ This is an ugly workaround for existing definition constraints in the  [Podspec](https://github.com/cawfree/web3-react-native/blob/63664f366c436aed73083b6b0a5cbf0b7374bfd3/web3-react-native.podspec#L26). ([View Issue](https://github.com/cawfree/web3-react-native/issues/1)).
 
 ### Android
+In your app's `AndroidManifest.xml`, [you need to](https://github.com/web3j/web3j/issues/915) enable [`android:largeHeap](https://developer.android.com/guide/topics/manifest/application-element)` under the `<application>` tag:
+
+```diff
+  <application
++   android:largeHeap="true"
+  />
+```
+
 Perform a rebuild of your compiled application by calling `react-native run-android`.
 
 For usage details, please see the [**documentation**](./docs).

@@ -9,6 +9,7 @@ const onPressSubmit = (e, navigation, wallet, toAddress, amount, units) => (disp
   .resolve()
   .then(
     () => {
+      console.warn('sending...');
       const { sendFunds } = wallet;
       return sendFunds(
         toAddress,

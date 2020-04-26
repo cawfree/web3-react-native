@@ -1,4 +1,5 @@
 import { Web3 } from 'web3-react-native';
+
 import { nanoid } from 'nanoid/non-secure';
 
 import { RECEIVE_WALLET } from "./actionTypes";
